@@ -58,6 +58,7 @@ public class Coordenador implements Operacoes_manipulacao_arquivo
 		if(gerado_por_processo_escrita == false)
 		{
 			System.out.println("Tamanho da fila: "+fila.fila.size());
+			System.out.println("Fila: "+ String.join(",",fila.fila.toString()));
 			System.out.println("Processo de id "+id+ " solicitou leitura do conteúdo do arquivo!");
 		}
 		

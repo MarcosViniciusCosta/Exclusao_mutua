@@ -16,7 +16,8 @@ public class P3 implements Operacoes_secao_critica{
 	public final static String caminho = "arquivo.txt";
 	public static Thread thread_processo_secao_critica;
 	public static Operacoes_manipulacao_arquivo stub_coordenador;
-
+	public static boolean solicitacao_escrita_pendente = false;
+	
 	public static void main(String[] args) 
 	{
 		//Scanner teclado = new Scanner(System.in);
@@ -45,7 +46,14 @@ public class P3 implements Operacoes_secao_critica{
 			while(true)
 			{
 				Thread.sleep(10000);
-				valor_aleatorio = gerar_valor_aleatorio(2);
+
+				if(solicitacao_escrita_pendente == true)
+				{
+					valor_aleatorio = 0;
+				}else
+				{
+					valor_aleatorio = gerar_valor_aleatorio(2);
+				}
 
 				switch(valor_aleatorio)
 				{
@@ -57,6 +65,7 @@ public class P3 implements Operacoes_secao_critica{
 				case 1:
 					System.out.println("Solicitar escrita");
 					stub_coordenador.solicitar_escrita_no_arquivo(id);
+					solicitacao_escrita_pendente = true;
 					break;
 
 				}
@@ -101,6 +110,7 @@ public class P3 implements Operacoes_secao_critica{
 			Operacoes_liberar_secao_critica stub_liberar_secao_critica = (Operacoes_liberar_secao_critica) registro.lookup("Liberar_secao_critica");
 			stub_liberar_secao_critica.liberar_secao_critica();
 			System.out.println("Acesso ao arquivo terminado");
+			solicitacao_escrita_pendente = false;
 		} catch (NotBoundException e) {
 
 			e.printStackTrace();
